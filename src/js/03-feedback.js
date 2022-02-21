@@ -2,8 +2,8 @@ import throttle from 'lodash.throttle';
 
 // Выбираем нашу форму
 const form = document.querySelector('.feedback-form');
-const emailFormEl = document.querySelector('[name="email"]');
-const feedbackMessageEl = document.querySelector('[name="message"]');
+// const emailFormEl = document.querySelector('[name="email"]');
+// const feedbackMessageEl = document.querySelector('[name="message"]');
 
 // Переменная для хранилища
 const FEEDBACK_FORM_STATE = 'feedback-form-state';
@@ -31,20 +31,22 @@ form.addEventListener(
 function onFormSubmit(evt) {
   // Отключаем перезагрузку страницы при сабмите
   evt.preventDefault();
-  // Делаем консоль лог при сабмите
-  console.log(formData);
-  // Сбрасываем значения с формы после сабмита
-  evt.currentTarget.reset();
-  // Удаляем значения из локального хранилища после сабмита
-  localStorage.removeItem(FEEDBACK_FORM_STATE);
+  //Проверка на заполненость формы
+  if (form.elements.email.value !== '' && form.elements.message.value !== '') {
+    // Делаем консоль лог при сабмите
+    console.log(formData);
+    // Сбрасываем значения с формы после сабмита
+    evt.currentTarget.reset();
+    // Удаляем значения из локального хранилища после сабмита
+    localStorage.removeItem(FEEDBACK_FORM_STATE);
+  }
 }
-
 function savedFormData() {
   const savedForms = localStorage.getItem(FEEDBACK_FORM_STATE);
   const parsedSavedForms = JSON.parse(savedForms);
 
   if (savedForms) {
-    emailFormEl.value = parsedSavedForms.email;
-    feedbackMessageEl.value = parsedSavedForms.message;
+    form.elements.email.value = parsedSavedForms.email;
+    form.elements.message.value = parsedSavedForms.message;
   }
 }
