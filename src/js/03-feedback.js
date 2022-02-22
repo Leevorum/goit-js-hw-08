@@ -8,7 +8,7 @@ const form = document.querySelector('.feedback-form');
 // Переменная для хранилища
 const FEEDBACK_FORM_STATE = 'feedback-form-state';
 // Пустой обьект для добавления значений в локальное хранилище
-const formData = {};
+let formData = {};
 
 // Добавляем слушатель на форму по сабмиту
 form.addEventListener('submit', onFormSubmit);
@@ -32,15 +32,17 @@ function onFormSubmit(evt) {
   // Отключаем перезагрузку страницы при сабмите
   evt.preventDefault();
   //Проверка на заполненость формы
-  if (form.elements.email.value !== '' && form.elements.message.value !== '') {
-    // Делаем консоль лог при сабмите
-    console.log(formData);
-    // Сбрасываем значения с формы после сабмита
-    evt.currentTarget.reset();
-    // Удаляем значения из локального хранилища после сабмита
-    localStorage.removeItem(FEEDBACK_FORM_STATE);
+  if (form.elements.email.value === '' || form.elements.message.value === '') {
+    return alert('Please fill in all the fields!');
   }
-  return alert('Please fill in all the fields!');
+  // Делаем консоль лог при сабмите
+  console.log(formData);
+  // Сбрасываем значения с формы после сабмита
+  evt.currentTarget.reset();
+  // Удаляем значения из локального хранилища после сабмита
+  localStorage.removeItem(FEEDBACK_FORM_STATE);
+  formData = {};
+  console.log(formData);
 }
 function savedFormData() {
   const savedForms = localStorage.getItem(FEEDBACK_FORM_STATE);
