@@ -40,13 +40,18 @@ function onFormSubmit(evt) {
     // Удаляем значения из локального хранилища после сабмита
     localStorage.removeItem(FEEDBACK_FORM_STATE);
   }
+  return alert('Please fill in all the fields!');
 }
 function savedFormData() {
   const savedForms = localStorage.getItem(FEEDBACK_FORM_STATE);
   const parsedSavedForms = JSON.parse(savedForms);
 
   if (savedForms) {
-    form.elements.email.value = parsedSavedForms.email;
-    form.elements.message.value = parsedSavedForms.message;
+    Object.entries(parsedSavedForms).forEach(([name, value]) => {
+      formData[name] = value;
+      form.elements[name].value = value;
+    });
+    // form.elements.email.value = parsedSavedForms.email;
+    // form.elements.message.value = parsedSavedForms.message;
   }
 }
